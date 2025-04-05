@@ -67,6 +67,12 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
+          label: 'Guides',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'tutorialSidebar',
+          position: 'left',
           label: 'Explanations',
         },
         {
@@ -85,6 +91,10 @@ const config: Config = {
             {
               label: 'Tutorial',
               to: '/tutorial/creating-a-project',
+            },
+            {
+              label: 'Guides',
+              to: '/guides',
             },
             {
               label: 'Explanations',

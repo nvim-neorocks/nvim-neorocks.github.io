@@ -3,55 +3,30 @@ id: code-hygiene
 title: Code Hygiene
 ---
 
-<!--TODO: extract this whole section into a set of guides-->
-
 Code hygiene is the practice of writing code that is readable and maintainable.
-In this chapter, we'll learn how Lux can help us maintain code hygiene in our
-Lua projects.
+In this chapter, we'll let tools automatically clean up our code for us.
 
-## Linting with `luacheck`
+## Linting with `lx check`
 
 Linting is the process of analyzing code for potential errors and stylistic issues (lines too long, unused variables, etc.).
-Lux comes with `luacheck`, a linter for Lua code, built-in. To run `luacheck` on your project, use the following command:
+To lint the entire project, we can run:
 
 ```sh
 lx check
 ```
 
-<!--TODO: Add output of `lx check` command for our current code and see if there are any issues.-->
+<!--TODO: show output of lx check and fix the errors that exist there-->
 
-## Formatting with `stylua`
+## Formatting with `lx fmt`
 
-`stylua` is a Lua code formatter that can automatically format your Lua code to a consistent style.
-Lux vendors `stylua` and provides a command to format your Lua files:
+Lux comes with a Lua code formatter that can automatically format your Lua code to a consistent style.
+To make our code style consistent accross the codebase, we can run:
 
 ```sh
 lx fmt
 ```
 
-Doing so will format according to your
-[`.stylua.toml`](https://github.com/JohnnyMorganz/StyLua?tab=readme-ov-file#options)
-file, defined in the project root. Otherwise, it will use the default style.
+Feel free to take a look at the changes `lx fmt` made to our code!
 
-## Git Hooks
-
-We recommend setting up a Git hook to run `lx check` and `lx fmt` before
-each commit to ensure that you never forget to lint and format your code.
-
-To set up a Git hook, create a file called `.git/hooks/pre-commit` in your
-project directory with the following content:
-
-```sh
-#!/bin/sh
-
-lx check
-lx fmt
-```
-
-Make sure to make the file executable:
-
-```sh
-chmod +x .git/hooks/pre-commit
-```
-
-Now, every time you commit changes to your project, `lx check` and `lx fmt` will run automatically!
+Now that our code is nice and shiny, we're ready to move onto the final step:
+publishing our code to [luarocks.org](https://luarocks.org)!

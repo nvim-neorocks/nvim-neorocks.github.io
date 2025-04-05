@@ -3,6 +3,7 @@ slug: /
 id: intro
 title: Introduction
 sidebar_label: Tutorial
+sidebar_position: 1
 ---
 
 Welcome to the official `lux` documentation.
