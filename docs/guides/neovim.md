@@ -8,13 +8,13 @@ In this guide, we'll learn how to make Lux execute code using Neovim as the Lua 
 ## Ensuring Lua Version
 
 Neovim ships with a `luajit` interpreter, which is equivalent to Lua version `5.1`.
-In your `lux.toml`, ensure that you allow at least version `5.1`:
+In your `lux.toml`, ensure that you specify version `5.1`:
 
 ```toml title="lux.toml"
 package = "package-name"
 version = "0.1.0"
 # highlight-next-line
-lua = ">=5.1"
+lua = "==5.1"
 
 ...
 ```
