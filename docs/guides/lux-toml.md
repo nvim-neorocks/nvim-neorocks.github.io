@@ -29,7 +29,7 @@ for example when [publishing a rock](/guides/publishing).
 
 ### `version`
 
-The rock's version (mandatory).
+The rock's version (optional).
 
 ```toml title="example"
 version = "1.0.0"
@@ -49,6 +49,11 @@ However, more complex versions that are not SemVer compliant
 (for example ,`1.0-rc1` instead of `1.0.0-rc1`) will be treated as Dev versions, 
 which cannot be compared with SemVer versions.
 
+If the version is not set in the `lux.toml` and the project is in a git repository,
+Lux will search the `HEAD` for a SemVer compliant git tag (with an optional `v` prefix).
+If one is found, it will be used to parse the package version.
+Otherwise, the version is assumed to be `dev`.
+
 ### `description`
 
 Metadata that will be published to luarocks.org (optional).
@@ -66,6 +71,38 @@ issues_url = "https://github.com/nvim-neorocks/lux/issues"
 maintainer = "neorocks org"
 labels = [ "neovim", "tls", "https" ]
 ```
+
+## Source
+
+To install a remote package, Lux needs to know where to find the source.
+This may vary, depending on the package's version.
+Unlike a Lua rockspec, Lux provides a mechanism for generating a [published](/guides/publishing)
+rockspec's source.
+
+You can declare templates for both SemVer and dev releases:
+
+```toml title="example"
+[source]
+url = "https://host.com/owner/$(PACKAGE)/archive/refs/tags/$(REF).zip"
+dev = "git+https://host.com/owner/$(PACKAGE).git"
+```
+
+Or:
+
+```toml title="example"
+[source]
+url = "https://host.com/owner/$(PACKAGE)/archive/refs/tags/v$(VERSION).zip"
+dev = "git+https://host.com/owner/$(PACKAGE).git"
+```
+
+When publishing a rock, Lux will perform the following variable substitutions:
+
+- `$(PACKAGE)`: The package name.
+- `$(VERSION)`: The package version 
+                (generated from a git tag if not declared in the `lux.toml`).
+- `$(REF)`: The git tag or revision
+            (priority: 1. SemVer tags; 2. tags; 3. revision (commit SHA)).
+- You may also specify environment variables with `$(<VAR_NAME>)`.
 
 ## Dependencies
 

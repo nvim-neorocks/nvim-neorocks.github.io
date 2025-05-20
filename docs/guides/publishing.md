@@ -25,6 +25,8 @@ First, you must choose a version number. Lux requires that all projects follow
 the [Semantic Versioning](https://semver.org/) specification. If your project is still unstable,
 mark it as version `0.1.0`. If your code is ready for general use, mark it as
 version `1.0.0`.
+Lux can infer the version from a SemVer compliant git tag (with an optional `v` prefix).
+In this case, you do not need to declare the version in your `lux.toml`.
 
 There are many ways to keep track of versioning or releases. We recommend a
 tool like [release-please](https://github.com/googleapis/release-please), which automatically
@@ -38,27 +40,33 @@ creating a git tag named after a version will also suffice.
 ## Configuring a Source URL
 
 With the URL in hand, open your project's `lux.toml` and add the following section:
+
 ```toml title="lux.toml"
 package = "my-lua-project"
 version = "0.1.0"
 
 # highlight-start
 [source]
-url = "git+https://github.com/my-username/my-project"
-tag = "v0.1.0"
+url = "https://github.com/my-username/my-project/archive/refs/tags/$(REF).zip"
+dev = "git+https://github.com/my-username/my-project.git"
 
 # highlight-end
 
 ...
 ```
 
-:::important
-We must provide the `git+https://` protocol to instruct Lux to use `git`.
+`url` is a template for a SemVer release URL; in this case, a ZIP archive for the release tag.
+Note the `$(REF)` variable in the URL template. Lux will substitute it with the tag or revision.
+`dev` is a template for a dev release URL, which is a git URL in this example.
+
+:::note
+You could also specify `v$(VERSION)` to inject the version instead.
+Additionally, you can inject the package name via `$(PACKAGE)`
+or any environment variable via `$(VAR_NAME)`.
 :::
 
 :::important
-Also, note the value we provided to `tag` - tools like `release-please` automatically prefix the versions
-with a `v`. If you made a release manually, then make sure the name is identical to whatever you set.
+We must provide the `git+https://` protocol in the `dev` URL template to instruct Lux to use `git`.
 :::
 
 ## Acquiring an API Key

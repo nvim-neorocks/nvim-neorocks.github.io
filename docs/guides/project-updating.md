@@ -27,29 +27,6 @@ If you are creating your releases manually, consult your Git forge and see if th
 is a "Releases" section from where you can create a new release. If not, create a git tag
 named after your release, for example: `2.0.0`.
 
-## Reconfiguring the Source URL
-
-Because the entire repository (including the `lux.toml`) is put under version control,
-you can safely prepare the `lux.toml` for the release of a new version.
-
-To prepare a new release, open your project's `lux.toml` and edit the following section:
-```diff title="lux.toml"
-package = "my-lua-project"
-version = "0.1.0"
-
-[source]
-url = "git+https://github.com/my-username/my-project"
-- tag = "v0.1.0"
-+ tag = "v0.2.0"
-
-...
-```
-
-:::important
-Note the value provided to `tag` - tools like `release-please` automatically prefix the versions
-with a `v`. If you made a release manually, then make sure the name is identical to whatever you set.
-:::
-
 ## Publishing
 
 We're now ready to publish all of our changes to [luarocks.org](https://luarocks.org).
