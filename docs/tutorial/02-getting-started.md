@@ -8,7 +8,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 Due to the fact that we have no stable release yet, you must install the project
-through `cargo`. We recommend installing through `cargo binstall` for fastest install times:
+through `cargo` or `nix`. We recommend installing through `cargo binstall` for fastest install times:
 
 ```sh
 cargo binstall lux-cli --locked
@@ -41,6 +41,43 @@ Make sure that `~/.cargo/bin/` is part of your shell's `$PATH`!
     </TabItem>
 </Tabs>
 :::
+
+## Installing via Nix
+
+For more advanced users, you can also use Nix Flakes to install Lux.
+
+Simply add `github:nvim-neorocks/lux` to your `flake.nix` inputs, then add the `lux.packages.<target>.default` package.
+
+For example:
+```nix
+{
+  description = "Lux example flake";
+
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixpkgs-unstable";
+    lux = {
+      url = "github:nvim-neorocks/lux";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
+
+  outputs = { self, nixpkgs, lux, ... } @ inputs:
+  let
+    pkgs = nixpkgs.legacyPackages.x86_64-linux;
+  in
+  {
+    devShells.x86_64-linux.default = pkgs.mkShell {
+      name = "lux";
+      buildInputs = [
+        lux.packages.x86_64-linux.default
+        pkgs.luajit # or pkgs.lua54Packages.lua
+      ];
+    };
+  };
+}
+```
+
+Now, you can run `nix develop` to enter a shell with Lux installed.
 
 ## Checking Installation
 
